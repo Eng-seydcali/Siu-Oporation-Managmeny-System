@@ -18,8 +18,12 @@ const PORT = process.env.PORT || 5005;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
-
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://siu-oporation-managmeny-system.onrender.com'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+}))
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://milgo:2366@cluster0.u8hg6b7.mongodb.net/Opms?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('MongoDB Connected seccsefully'))
