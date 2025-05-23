@@ -29,13 +29,20 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
+  // Configure axios defaults
+  useEffect(() => {
+    axios.defaults.baseURL = API_URL;
+    if (token) {
+      axios.defaults.headers.common['x-auth-token'] = token;
+    }
+  }, []);
+
   useEffect(() => {
     const fetchUser = async () => {
       if (token) {
         try {
           // Set auth token for all requests
           axios.defaults.headers.common['x-auth-token'] = token;
-          axios.defaults.baseURL = API_URL;
           
           const res = await axios.get('/api/auth/user');
           setCurrentUser(res.data);
@@ -53,7 +60,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const res = await axios.post(`${API_URL}/api/auth/login`, { email, password });
+      const res = await axios.post('/api/auth/login', { email, password });
       const { token: authToken, user } = res.data;
       
       // Save token to localStorage
@@ -73,7 +80,7 @@ export function AuthProvider({ children }) {
 
   const register = async (userData) => {
     try {
-      const res = await axios.post(`${API_URL}/api/auth/register`, userData);
+      const res = await axios.post('/api/auth/register', userData);
       const { token: authToken } = res.data;
       
       // Save token to localStorage
@@ -84,7 +91,7 @@ export function AuthProvider({ children }) {
       axios.defaults.headers.common['x-auth-token'] = authToken;
       
       // Fetch user data
-      const userRes = await axios.get(`${API_URL}/api/auth/user`);
+      const userRes = await axios.get('/api/auth/user');
       setCurrentUser(userRes.data);
       
       return userRes.data;
