@@ -1,6 +1,8 @@
+import { createContext, useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 
 // API URL
-export const API_URL = 'https://siu-oporation-managmeny-system.onrender.com'
+export const API_URL = 'https://siu-oporation-managmeny-system.onrender.com';
 
 // Status constants
 export const STATUS = {
@@ -8,15 +10,13 @@ export const STATUS = {
   PROCESSING: 'processing',
   APPROVED: 'approved',
   REJECTED: 'rejected'
-}
+};
 
 // User roles
 export const ROLES = {
   ADMIN: 'admin',
   USER: 'user'
-}
-import { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+};
 
 const AuthContext = createContext();
 
@@ -35,6 +35,7 @@ export function AuthProvider({ children }) {
         try {
           // Set auth token for all requests
           axios.defaults.headers.common['x-auth-token'] = token;
+          axios.defaults.baseURL = API_URL;
           
           const res = await axios.get('/api/auth/user');
           setCurrentUser(res.data);
@@ -52,7 +53,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const res = await axios.post('/api/auth/login', { email, password });
+      const res = await axios.post(`${API_URL}/api/auth/login`, { email, password });
       const { token: authToken, user } = res.data;
       
       // Save token to localStorage
@@ -72,7 +73,7 @@ export function AuthProvider({ children }) {
 
   const register = async (userData) => {
     try {
-      const res = await axios.post('/api/auth/register', userData);
+      const res = await axios.post(`${API_URL}/api/auth/register`, userData);
       const { token: authToken } = res.data;
       
       // Save token to localStorage
@@ -83,7 +84,7 @@ export function AuthProvider({ children }) {
       axios.defaults.headers.common['x-auth-token'] = authToken;
       
       // Fetch user data
-      const userRes = await axios.get('/api/auth/user');
+      const userRes = await axios.get(`${API_URL}/api/auth/user`);
       setCurrentUser(userRes.data);
       
       return userRes.data;
