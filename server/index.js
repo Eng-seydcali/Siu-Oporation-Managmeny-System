@@ -37,7 +37,7 @@ app.use('/api/departments', departmentRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
-  res.send('University Budget Management API is running');
+  res.send('Siu Oporation Management System  API is running');
 });
 
 // Start server

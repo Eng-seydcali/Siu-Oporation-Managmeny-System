@@ -1,6 +1,6 @@
 
 // API URL
-export const API_URL = 'http://localhost:5005'
+export const API_URL = 'https://siu-oporation-managmeny-system.onrender.com'
 
 // Status constants
 export const STATUS = {
