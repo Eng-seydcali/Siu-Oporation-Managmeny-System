@@ -8,7 +8,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5005',
+        target: 'https://siu-oporation-managmeny-system.onrender.com',
         changeOrigin: true,
         secure: false
       }
