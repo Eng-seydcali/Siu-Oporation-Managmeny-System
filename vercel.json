@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "server/index.js"
+    }
+  ],
+  "env": {
+    "MONGO_URI": "mongodb+srv://milgo:2366@cluster0.u8hg6b7.mongodb.net/Opms?retryWrites=true&w=majority&appName=Cluster0",
+    "JWT_SECRET": "universitysecretkey2024",
+    "NODE_ENV": "production"
+  }
+}

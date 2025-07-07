@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 // API URL
-export const API_URL = process.env.NODE_ENV === 'production' 
+export const API_URL = import.meta.env.PROD 
   ? 'https://siu-oporation-managmeny-system.onrender.com'
   : 'http://localhost:5005';
 
@@ -33,11 +33,18 @@ export function AuthProvider({ children }) {
 
   // Configure axios defaults
   useEffect(() => {
-    axios.defaults.baseURL = API_URL;
+    // Set base URL
+    if (import.meta.env.PROD) {
+      axios.defaults.baseURL = API_URL;
+    }
+    
+    // Set default headers
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    
     if (token) {
       axios.defaults.headers.common['x-auth-token'] = token;
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const fetchUser = async () => {

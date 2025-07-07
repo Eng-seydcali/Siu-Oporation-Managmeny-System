@@ -34,16 +34,15 @@ app.use(cors({
     const allowedOrigins = [
       'http://localhost:5173',
       'http://localhost:3000',
+      'https://siu-oporation-managmeny-system.vercel.app',
+      'https://siu-operation-managmeny-system.vercel.app',
       'https://siu-oporation-managmeny-system.onrender.com',
       // Add your actual frontend domain here
       process.env.FRONTEND_URL
     ].filter(Boolean);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(null, true); // Allow all origins for now - restrict in production
-    }
+    // For now, allow all origins to fix CORS issues
+    callback(null, true);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -53,13 +52,21 @@ app.use(cors({
     'Accept', 
     'x-auth-token',
     'Origin',
-    'X-Requested-With'
+    'X-Requested-With',
+    'Access-Control-Allow-Origin'
   ],
-  exposedHeaders: ['x-auth-token']
+  exposedHeaders: ['x-auth-token'],
+  optionsSuccessStatus: 200
 }));
 
 // Handle preflight requests
-app.options('*', cors());
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-auth-token, Origin, X-Requested-With, Accept');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200);
+});
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
