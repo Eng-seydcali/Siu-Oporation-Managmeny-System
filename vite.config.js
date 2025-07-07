@@ -8,9 +8,12 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'https://siu-oporation-managmeny-system.onrender.com',
+        target: process.env.NODE_ENV === 'production' 
+          ? 'https://siu-oporation-managmeny-system.onrender.com'
+          : 'http://localhost:5005',
         changeOrigin: true,
-        secure: false
+        secure: true,
+        ws: true
       }
     }
   },

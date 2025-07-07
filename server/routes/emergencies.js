@@ -38,8 +38,10 @@ router.post('/', auth, upload.single('mediaFile'), async (req, res) => {
 
     // If a file was uploaded, add it to the emergency
     if (req.file) {
-      emergency.mediaFile = req.file.buffer;
-      emergency.contentType = req.file.mimetype;
+      emergency.mediaFile = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      };
     }
 
     const savedEmergency = await emergency.save();
@@ -112,12 +114,12 @@ router.get('/:id/media', auth, async (req, res) => {
   try {
     const emergency = await Emergency.findById(req.params.id);
     
-    if (!emergency || !emergency.mediaFile) {
+    if (!emergency || !emergency.mediaFile || !emergency.mediaFile.data) {
       return res.status(404).json({ msg: 'Media not found' });
     }
     
-    res.set('Content-Type', emergency.contentType);
-    res.send(emergency.mediaFile);
+    res.set('Content-Type', emergency.mediaFile.contentType);
+    res.send(emergency.mediaFile.data);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
