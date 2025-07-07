@@ -16,6 +16,12 @@
       "dest": "server/index.js"
     }
   ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "env": {
     "MONGO_URI": "mongodb+srv://milgo:2366@cluster0.u8hg6b7.mongodb.net/Opms?retryWrites=true&w=majority&appName=Cluster0",
     "JWT_SECRET": "universitysecretkey2024",
