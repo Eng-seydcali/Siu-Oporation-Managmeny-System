@@ -2,31 +2,31 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "client/build/index.html",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/index.js"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "client/build/static/$1"
+      "dest": "https://siu-oporation-managmeny-system.onrender.com/api/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "client/build/index.html"
+      "dest": "/index.html"
     }
   ],
-  "env": {
-    "MONGO_URI": "your_mongo",
-    "JWT_SECRET": "your_secret",
-    "NODE_ENV": "production"
-  }
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://siu-oporation-managmeny-system.onrender.com/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
