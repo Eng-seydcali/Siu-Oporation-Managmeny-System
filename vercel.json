@@ -2,20 +2,31 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/**/*",
+      "src": "server/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "client/build/index.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "client/build/static/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "client/build/index.html"
     }
   ],
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://siu-oporation-managmeny-system.onrender.com/api/$1"
-    }
-  ]
+  "env": {
+    "MONGO_URI": "mongodb+srv://milgo:2366@cluster0.u8hg6b7.mongodb.net/Opms?retryWrites=true&w=majority&appName=Cluster0",
+    "JWT_SECRET": "universitysecretkey2024",
+    "NODE_ENV": "production"
+  }
 }
