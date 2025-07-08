@@ -1,32 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "server/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "client/build/index.html",
-      "use": "@vercel/static"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "server/index.js"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "client/build/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "client/build/index.html"
-    }
-  ],
-  "env": {
-    "MONGO_URI": "mongodb+srv://milgo:2366@cluster0.u8hg6b7.mongodb.net/Opms?retryWrites=true&w=majority&appName=Cluster0",
-    "JWT_SECRET": "universitysecretkey2024",
-    "NODE_ENV": "production"
-  }
+  ]
 }
