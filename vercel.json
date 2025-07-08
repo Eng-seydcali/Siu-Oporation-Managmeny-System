@@ -1,8 +1,32 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "server/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "client/build/index.html",
+      "use": "@vercel/static"
     }
-  ]
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "client/build/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "client/build/index.html"
+    }
+  ],
+  "env": {
+    "MONGO_URI": "your_mongo",
+    "JWT_SECRET": "your_secret",
+    "NODE_ENV": "production"
+  }
 }
